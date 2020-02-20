@@ -1,4 +1,4 @@
-const grid_container = '#container';
+const grid_container = '#canvas';
 let grid_x = 100;
 let grid_y = 100;
 let cell_x = 5;
@@ -6,7 +6,9 @@ let cell_y = 5;
 let color_puke = true;
 let color = 'rgb(255,0,0)'
 let isMousedown = false;
+let mouseOverride = false;
 
+createOptionEventListeners();
 createMouseEventListeners();
 createGrid(grid_container, grid_x, grid_y, cell_x, cell_y);
 
@@ -15,15 +17,24 @@ function createGrid(element, grid_x, grid_y, cell_x, cell_y) {
 	const container = document.querySelector(element);
 	let cells = [];
 
-	container.setAttribute('style', `display:grid; grid-template-rows:repeat(${grid_x}, ${cell_x}px [row-start]); grid-template-columns:repeat(${grid_y}, ${cell_y}px [col-start]);`);
+	container.setAttribute('style', `display:inline-grid; grid-template-rows:repeat(${grid_x}, ${cell_x}px [row-start]); grid-template-columns:repeat(${grid_y}, ${cell_y}px [col-start]);`);
 	container.setAttribute('ondragstart', 'return false;');
 	container.setAttribute('ondrop', 'return false;');
 
 	for (let i = 0; i < grid_x*grid_y; i++) {
 		cells.push(document.createElement('div'));
 		cells[i].setAttribute('class', 'cell');
-		cells[i].addEventListener('mouseover', event => {if (isMousedown){colorCell(event.target)}});
+		cells[i].addEventListener('mouseover', event => {if (isMousedown || mouseOverride){colorCell(event.target)}});
 		container.appendChild(cells[i]);
+	}
+}
+
+//Destroys all children of the given node
+function destroyGrid(element) {
+	const container = document.querySelector(element);
+
+	while (container.firstChild) {
+		container.removeChild(container.lastChild);
 	}
 }
 
@@ -60,6 +71,22 @@ function colorCell(element) {
 
 //Defines Listeners for Mouseup and Mousedown that disable or enable coloring via isMousedown
 function createMouseEventListeners() {
-	window.addEventListener("mousedown", event => isMousedown = true);
-	window.addEventListener("mouseup", event => isMousedown = false);
+	window.addEventListener('mousedown', event => isMousedown = true);
+	window.addEventListener('mouseup', event => isMousedown = false);
+}
+
+function createOptionEventListeners() {
+	const reset_btn = document.querySelector('#reset');
+	const width_fld = document.querySelector('#width');
+	const height_fld = document.querySelector('#height');
+	const color_puke_bx = document.querySelector('#color-puke');
+	const override_bx = document.querySelector('#override');
+	const color_fld = document.querySelector('#color')
+
+	reset_btn.addEventListener('click', event => {destroyGrid(grid_container); createGrid(grid_container, grid_x, grid_y, cell_x, cell_y);})
+	width_fld.addEventListener('input', event => grid_x = event.target.value);
+	height_fld.addEventListener('input', event => grid_y = event.target.value);
+	color_puke_bx.addEventListener('input', event => {(event.target.checked) ? color_puke = true : color_puke = false});
+	override_bx.addEventListener('input', event => {(event.target.checked) ? mouseOverride = true : mouseOverride = false});
+	color_fld.addEventListener('input', event => color = event.target.value);
 }

@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css?family=Bungee+Shade|Open+Sans&display=swap');
+
+:root {
+	font-size: 10px;
+}
+
+html {
+	font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+	font-family: 'Bungee Shade', cursive;
+	font-size: 5rem;
+	text-align: center;
+}
+
+p {
+	font-size: 1.5rem;
+	text-align: center;
+}
+
+#canvas-container {
+	display: flex;
+	justify-content: center;
+	margin: 3% 0 3% 0;
+}
+
+#canvas {
+	border: solid;
+}
+
+#options-container {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+#options-container div {
+	margin: 1% 0 1% 0;
+}
+
+label {
+	margin: 0 0.4rem 0 0.2rem;
+}
+
+input button{
+	margin: 0.2rem;
+}
