@@ -79,6 +79,7 @@ function createOptionEventListeners() {
 	const reset_btn = document.querySelector('#reset');
 	const width_fld = document.querySelector('#width');
 	const height_fld = document.querySelector('#height');
+	const cell_fld = document.querySelector('#cell');
 	const color_puke_bx = document.querySelector('#color-puke');
 	const override_bx = document.querySelector('#override');
 	const color_fld = document.querySelector('#color')
@@ -86,6 +87,7 @@ function createOptionEventListeners() {
 	reset_btn.addEventListener('click', event => {destroyGrid(grid_container); createGrid(grid_container, grid_x, grid_y, cell_x, cell_y);})
 	width_fld.addEventListener('input', event => grid_x = event.target.value);
 	height_fld.addEventListener('input', event => grid_y = event.target.value);
+	cell_fld.addEventListener('input', event => {cell_x = event.target.value; cell_y = event.target.value;});
 	color_puke_bx.addEventListener('input', event => {(event.target.checked) ? color_puke = true : color_puke = false});
 	override_bx.addEventListener('input', event => {(event.target.checked) ? mouseOverride = true : mouseOverride = false});
 	color_fld.addEventListener('input', event => color = event.target.value);
